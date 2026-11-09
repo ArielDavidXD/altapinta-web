@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>AltaPinta GYM — Tu hora de gimnasio, todos los días</title>
+  <meta name="description" content="Un turno fijo de una hora que es tuyo cada día. Dos planes, entrenador si lo quieres y un solo pago al mes.">
+  <meta name="theme-color" id="metaTema" content="#080808">
+
+  <!-- Tema: se aplica antes de pintar para que no parpadee -->
+  <script>
+    (function () {
+      var tema = "oscuro";
+      try {
+        var guardado = localStorage.getItem("gym_tema");
+        var porDefecto = localStorage.getItem("gym_tema_defecto") || "auto";
+        var sistema = window.matchMedia("(prefers-color-scheme: light)").matches ? "claro" : "oscuro";
+        tema = guardado || (porDefecto === "auto" ? sistema : porDefecto);
+      } catch (e) {
+        tema = "oscuro";
+      }
+      document.documentElement.setAttribute("data-tema", tema === "claro" ? "claro" : "oscuro");
+    })();
+  </script>
+
+  <!-- Redes sociales (cambiar la URL cuando el sitio esté publicado) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AltaPinta GYM">
+  <meta property="og:description" content="Un turno fijo de una hora que es tuyo cada día. Dos planes y entrenador si lo quieres.">
+  <meta property="og:image" content="img/logo.jpg">
+
+  <link rel="icon" href="img/logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- CONTENIDO: los textos, precios, turnos, fotos y datos de contacto se
+       editan desde el panel /admin/. Lo escrito aquí es solo el respaldo
+       por si el sitio se abre sin conexión. -->
+
+  <script type="application/ld+json" id="jsonld">
+  {
+    "@context": "https://schema.org",
+    "@type": "HealthClub",
+    "name": "AltaPinta GYM",
+    "description": "Gimnasio con turnos fijos de una hora, dos planes y entrenador.",
+    "image": "img/logo.jpg",
+    "telephone": "+54 9 11 0000-0000",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. San Martín 1234",
+      "addressLocality": "Buenos Aires",
+      "addressCountry": "AR"
+    },
+    "sameAs": ["https://instagram.com/altapinta.gym"]
+  }
+  </script>
+</head>
+
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- ================= HEADER ================= -->
+
+  <header class="site-header" id="siteHeader">
+    <div class="container header-inner">
+
+      <a class="brand" href="#inicio" aria-label="AltaPinta GYM — inicio">
+        <img class="brand-logo" src="img/logo.jpg" alt="" width="40" height="40">
+        <span class="brand-name">AltaPinta <strong>GYM</strong></span>
+      </a>
+
+      <nav class="nav" id="navMenu" aria-label="Principal">
+        <a href="#planes">Planes</a>
+        <a href="#horarios">Horarios</a>
+        <a href="#entrenador">Entrenador</a>
+        <a href="#app">App</a>
+        <a href="#contacto">Contacto</a>
+        <a class="btn btn-primary btn-sm" data-wa data-wa-texto="Hola, quiero información sobre AltaPinta GYM"
+           href="https://wa.me/5491100000000" target="_blank" rel="noopener">Escríbenos</a>
+      </nav>
+
+      <div class="header-tools">
+
+        <button class="icon-btn" id="themeToggle" type="button"
+                aria-label="Cambiar a modo claro" title="Cambiar de tema">
+          <svg class="ico-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"/>
+            <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+          </svg>
+          <svg class="ico-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z"/>
+          </svg>
+        </button>
+
+        <button class="nav-toggle" id="navToggle" type="button"
+                aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+
+      </div>
+
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero" id="inicio">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-foto" id="heroFoto" aria-hidden="true" hidden></div>
+
+      <div class="container hero-inner">
+
+        <p class="eyebrow" data-hero-etiqueta>Turnos de una hora · De 7 a 21</p>
+
+        <h1><span data-hero-titulo>Una hora al día.</span><br><span class="grad" data-hero-destacado>Hazla tuya.</span></h1>
+
+        <p class="lead" data-hero-bajada>
+          Tienes tu turno fijo: llegas, entrenas y te vas. A la misma hora todos los días y con un solo pago al mes.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#planes">Ver planes</a>
+          <a class="btn btn-ghost" data-wa data-wa-texto="Hola, quiero empezar en AltaPinta GYM"
+             href="https://wa.me/5491100000000" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
+        </div>
+
+        <dl class="hero-stats">
+          <div>
+            <dt data-stat-turnos>12</dt>
+            <dd>turnos por día</dd>
+          </div>
+          <div>
+            <dt data-stat-horario>7 a 21</dt>
+            <dd>horario</dd>
+          </div>
+          <div>
+            <dt data-stat-planes>2</dt>
+            <dd>planes</dd>
+          </div>
+          <div>
+            <dt>1 h</dt>
+            <dd>por turno</dd>
+          </div>
+        </dl>
+
+      </div>
+    </section>
+
+    <!-- ================= PLANES ================= -->
+
+    <section class="section" id="planes">
+      <div class="container">
+
+        <header class="section-head reveal">
+          <p class="eyebrow">Planes</p>
+          <h2>Dos planes, sin vueltas</h2>
+          <p class="section-sub">
+            Pagas una vez al mes, en efectivo o por transferencia. Si quieres confirmar el precio de hoy, escríbenos.
+          </p>
+        </header>
+
+        <div class="cards" id="planesLista">
+
+          <article class="card plan">
+            <header class="plan-head">
+              <h3>Normal</h3>
+              <p>Tú sabes lo que haces. Nosotros ponemos el lugar.</p>
+            </header>
+
+            <p class="price">
+              <span class="price-main">$3.750</span>
+              <span class="price-note">efectivo</span>
+            </p>
+            <p class="price-alt">$4.750 por transferencia</p>
+
+            <ul class="features">
+              <li>Acceso al gimnasio</li>
+              <li>Tu turno fijo de una hora</li>
+              <li>Tu rutina, a tu manera</li>
+              <li class="muted-item">Sin entrenador</li>
+            </ul>
+
+            <a class="btn btn-ghost btn-block" data-wa data-wa-texto="Hola, quiero el plan Normal"
+               href="https://wa.me/5491100000000" target="_blank" rel="noopener">Lo quiero</a>
+          </article>
+
+          <article class="card plan plan-featured">
+            <span class="badge">Con entrenador</span>
+
+            <header class="plan-head">
+              <h3>Premium</h3>
+              <p>Para no entrenar a ciegas.</p>
+            </header>
+
+            <p class="price">
+              <span class="price-main">$5.000</span>
+              <span class="price-note">efectivo</span>
+            </p>
+            <p class="price-alt">$6.000 por transferencia</p>
+
+            <ul class="features">
+              <li>Todo lo del plan Normal</li>
+              <li>Entrenador asignado</li>
+              <li>Rutina personalizada</li>
+              <li>Seguimiento de tu progreso</li>
+            </ul>
+
+            <a class="btn btn-primary btn-block" data-wa data-wa-texto="Hola, quiero el plan Premium"
+               href="https://wa.me/5491100000000" target="_blank" rel="noopener">Quiero entrenador</a>
+          </article>
+
+        </div>
+
+        <p class="note reveal" data-nota-pagos>
+          Tu día de pago es el día en que te inscribes, y se repite cada mes. En los meses más cortos se cobra el último día.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- ================= HORARIOS ================= -->
+
+    <section class="section section-alt" id="horarios">
+      <div class="container">
+
+        <header class="section-head reveal">
+          <p class="eyebrow">Horarios</p>
+          <h2>Elige tu hora</h2>
+          <p class="section-sub">
+            Mañana o tarde, tú decides. Una vez que eliges, ese horario es tuyo. Escríbenos para ver qué turnos quedan libres.
+          </p>
+        </header>
+
+        <div class="schedule" id="turnosLista">
+
+          <div class="schedule-group">
+            <h3>Mañana</h3>
+            <ul class="slots">
+              <li>07:00 – 08:00</li>
+              <li>08:00 – 09:00</li>
+              <li>09:00 – 10:00</li>
+              <li>10:00 – 11:00</li>
+              <li>11:00 – 12:00</li>
+            </ul>
+          </div>
+
+          <div class="schedule-group">
+            <h3>Tarde</h3>
+            <ul class="slots">
+              <li>14:00 – 15:00</li>
+              <li>15:00 – 16:00</li>
+              <li>16:00 – 17:00</li>
+              <li>17:00 – 18:00</li>
+              <li>18:00 – 19:00</li>
+              <li>19:00 – 20:00</li>
+              <li>20:00 – 21:00</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="center reveal">
+          <a class="btn btn-primary" data-wa data-wa-texto="Hola, quiero consultar la disponibilidad de turnos"
+             href="https://wa.me/5491100000000" target="_blank" rel="noopener">Ver qué turnos quedan</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= ENTRENADOR ================= -->
+
+    <section class="section" id="entrenador">
+      <div class="container">
+
+        <header class="section-head reveal">
+          <p class="eyebrow">Equipo</p>
+          <h2>Tu entrenador</h2>
+          <p class="section-sub">
+            Con el plan Premium no entrenas solo.
+          </p>
+        </header>
+
+        <article class="trainer card reveal">
+          <div class="trainer-avatar" id="entrenadorAvatar" aria-hidden="true">J</div>
+
+          <div class="trainer-body">
+            <h3 id="entrenadorNombre">Jorge</h3>
+            <p class="trainer-role" id="entrenadorRol">Entrenador</p>
+            <p id="entrenadorDesc">
+              Arma tu rutina, te corrige cuando algo está mal y revisa cómo avanzas de un mes a otro. Si es tu primera vez en un gimnasio, te acompaña en las primeras clases.
+            </p>
+          </div>
+
+          <span class="badge badge-soft" id="entrenadorEtiqueta">Incluido en Premium</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ================= GALERÍA (se muestra si hay fotos) ================= -->
+
+    <section class="section" id="galeria" hidden>
+      <div class="container">
+
+        <header class="section-head reveal">
+          <p class="eyebrow">El local</p>
+          <h2>Así es por dentro</h2>
+        </header>
+
+        <div class="gallery" id="galeriaLista"></div>
+
+      </div>
+    </section>
+
+    <!-- ================= CÓMO EMPEZAR ================= -->
+
+    <section class="section section-alt" id="empezar">
+      <div class="container">
+
+        <header class="section-head reveal">
+          <p class="eyebrow">Cómo empezar</p>
+          <h2>De la duda al primer día</h2>
+        </header>
+
+        <ol class="steps" id="pasosLista">
+          <li class="card">
+            <span class="step-num">01</span>
+            <h3>Decide cuánta ayuda quieres</h3>
+            <p>Normal si ya sabes qué hacer. Premium si prefieres que alguien te guíe.</p>
+          </li>
+          <li class="card">
+            <span class="step-num">02</span>
+            <h3>Escoge tu hora</h3>
+            <p>Mañana temprano o después del trabajo. Un horario fijo de una hora.</p>
+          </li>
+          <li class="card">
+            <span class="step-num">03</span>
+            <h3>Ven a entrenar</h3>
+            <p>Hablamos por WhatsApp, te inscribimos y te decimos cuándo es tu primer día.</p>
+          </li>
+        </ol>
+
+      </div>
+    </section>
+
+    <!-- ================= APP ================= -->
+
+    <section class="section" id="app">
+      <div class="container">
+
+        <div class="app-card reveal">
+          <div class="app-texto">
+            <p class="eyebrow">App del gimnasio</p>
+            <h2>El gimnasio en tu teléfono</h2>
+            <p class="app-bajada">
+              Gestiona clientes, pagos, entradas y turnos desde una sola app. Descarga el APK, instálalo y listo.
+            </p>
+
+            <ul class="app-datos">
+              <li>Requiere Android 7.0 o superior</li>
+              <li>Descarga directa (APK)</li>
+              <li>Siempre la última versión</li>
+            </ul>
+
+            <div class="app-acciones">
+              <a class="btn btn-primary"
+                 href="https://github.com/ArielDavidXD/GymApplication/releases/latest/download/altapinta-gym.apk"
+                 download>
+                Descargar APK
+              </a>
+              <a class="btn btn-ghost"
+                 href="https://github.com/ArielDavidXD/GymApplication/releases"
+                 target="_blank" rel="noopener">
+                Ver versiones
+              </a>
+            </div>
+
+            <p class="app-nota">
+              Al abrir el archivo, Android puede pedirte permiso para instalar
+              apps de origen desconocido. Acepta y continúa.
+            </p>
+          </div>
+
+          <div class="app-icono" aria-hidden="true">
+            <img src="img/logo.jpg" alt="" width="140" height="140">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= CONTACTO ================= -->
+
+    <section class="section" id="contacto">
+      <div class="container">
+
+        <header class="section-head reveal">
+          <p class="eyebrow">Contacto</p>
+          <h2>Ven a vernos</h2>
+          <p class="section-sub">
+            Pasa por el gimnasio o escríbenos. Te respondemos con los turnos libres y los precios al día.
+          </p>
+        </header>
+
+        <div class="contact-grid">
+
+          <div class="card contact-card reveal">
+            <ul class="contact-list">
+
+              <li>
+                <span class="icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                </span>
+                <div>
+                  <span class="contact-label">Dirección</span>
+                  <span class="contact-value" id="contactoDireccion">Av. San Martín 1234, Buenos Aires</span>
+                  <a class="contact-link" id="contactoMapa"
+                     href="https://www.google.com/maps/search/?api=1&query=AltaPinta+GYM"
+                     target="_blank" rel="noopener">Ver en el mapa</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.6 3h2.2l1.6 4-2 1.4a12 12 0 0 0 5.2 5.2l1.4-2 4 1.6v2.2a2 2 0 0 1-2.2 2A16 16 0 0 1 4.6 5.2 2 2 0 0 1 6.6 3Z"/></svg>
+                </span>
+                <div>
+                  <span class="contact-label">WhatsApp</span>
+                  <a class="contact-value" id="contactoWhatsapp"
+                     href="https://wa.me/5491100000000" target="_blank" rel="noopener">+54 9 11 0000-0000</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1"/></svg>
+                </span>
+                <div>
+                  <span class="contact-label">Instagram</span>
+                  <a class="contact-value" id="contactoInstagram" href="https://instagram.com/altapinta.gym"
+                     target="_blank" rel="noopener">@altapinta.gym</a>
+                </div>
+              </li>
+
+              <li>
+                <span class="icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+                </span>
+                <div>
+                  <span class="contact-label">Horarios</span>
+                  <span class="contact-value" id="contactoHorario">Turnos de 7:00 a 21:00</span>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+          <aside class="card cta-card reveal">
+            <h3>¿Nunca has entrenado?</h3>
+            <p>
+              No pasa nada. Cuéntanos qué quieres lograr y te decimos qué plan y qué horario te convienen.
+            </p>
+            <a class="btn btn-primary btn-block" data-wa data-wa-texto="Hola, es mi primera vez en AltaPinta GYM"
+               href="https://wa.me/5491100000000" target="_blank" rel="noopener">Cuéntanos por WhatsApp</a>
+          </aside>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+
+      <div class="footer-brand">
+        <img class="brand-logo" src="img/logo.jpg" alt="" width="36" height="36">
+        <span class="brand-name">AltaPinta <strong>GYM</strong></span>
+      </div>
+
+      <nav class="footer-nav" aria-label="Enlaces del pie">
+        <a href="#planes">Planes</a>
+        <a href="#horarios">Horarios</a>
+        <a href="#entrenador">Entrenador</a>
+        <a href="#app">App</a>
+        <a href="#contacto">Contacto</a>
+        <a href="admin/">Administrar</a>
+      </nav>
+
+      <p class="footer-copy">
+        © <span id="year">2026</span> AltaPinta GYM. Todos los derechos reservados.
+      </p>
+
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="contenido.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
