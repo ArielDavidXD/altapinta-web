@@ -1,0 +1,438 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel del sitio — AltaPinta GYM</title>
+  <link rel="icon" href="../img/logo.jpg">
+
+  <!-- Tema del panel: se aplica antes de pintar -->
+  <script>
+    (function () {
+      var tema = "oscuro";
+      try {
+        tema = localStorage.getItem("gym_admin_tema") ||
+          (window.matchMedia("(prefers-color-scheme: light)").matches ? "claro" : "oscuro");
+      } catch (e) {
+        tema = "oscuro";
+      }
+      document.documentElement.setAttribute("data-tema", tema === "claro" ? "claro" : "oscuro");
+    })();
+  </script>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <!-- ================= LOGIN ================= -->
+
+  <div class="login" id="vistaLogin">
+
+    <button class="icon-btn js-tema login-tema" type="button" aria-label="Cambiar de tema" title="Cambiar de tema">
+      <svg class="ico-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+      </svg>
+      <svg class="ico-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z"/>
+      </svg>
+    </button>
+
+    <form class="login-card" id="formLogin" autocomplete="on">
+      <img class="login-logo" src="../img/logo.jpg" alt="">
+      <h1>Panel del sitio</h1>
+      <p class="login-sub">Ingresá para editar el contenido de la web.</p>
+
+      <label class="campo">
+        <span>Email</span>
+        <input type="email" id="loginEmail" value="admin@altapintagym.com" autocomplete="username" required>
+      </label>
+
+      <label class="campo">
+        <span>Contraseña</span>
+        <input type="password" id="loginPassword" autocomplete="current-password" required>
+      </label>
+
+      <button class="btn btn-primario btn-ancho" type="submit" id="btnLogin">Entrar</button>
+
+      <p class="mensaje error" id="loginError" hidden></p>
+      <a class="volver" href="../index.html">← Volver al sitio</a>
+    </form>
+  </div>
+
+  <!-- ================= PANEL ================= -->
+
+  <div class="panel" id="vistaPanel" hidden>
+
+    <aside class="sidebar">
+
+      <div class="sidebar-marca">
+        <img src="../img/logo.jpg" alt="">
+        <span>AltaPinta <strong>GYM</strong></span>
+
+        <div class="sidebar-acciones">
+          <a class="icon-btn solo-movil" href="../index.html" target="_blank" rel="noopener"
+             aria-label="Ver sitio" title="Ver sitio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/>
+            </svg>
+          </a>
+
+          <button class="icon-btn js-tema" type="button" aria-label="Cambiar de tema" title="Cambiar de tema">
+            <svg class="ico-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.2"/>
+              <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+            </svg>
+            <svg class="ico-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z"/>
+            </svg>
+          </button>
+
+          <button class="icon-btn js-salir solo-movil" type="button" aria-label="Cerrar sesión" title="Cerrar sesión">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/>
+              <path d="M10 8l-4 4 4 4M6 12h9"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <nav class="menu" id="tabs" aria-label="Secciones">
+        <button type="button" class="tab activo" data-tab="general">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 9.5V20h12V9.5"/></svg>
+          <span>General</span>
+        </button>
+        <button type="button" class="tab" data-tab="planes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 13 9 5 9-5"/></svg>
+          <span>Planes</span>
+        </button>
+        <button type="button" class="tab" data-tab="turnos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+          <span>Turnos</span>
+        </button>
+        <button type="button" class="tab" data-tab="entrenador">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+          <span>Entrenador</span>
+        </button>
+        <button type="button" class="tab" data-tab="galeria">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="m5 18 5-5 4 4 3-2.5 2 2"/></svg>
+          <span>Galería</span>
+        </button>
+        <button type="button" class="tab" data-tab="contacto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.6 3h2.2l1.6 4-2 1.4a12 12 0 0 0 5.2 5.2l1.4-2 4 1.6v2.2a2 2 0 0 1-2.2 2A16 16 0 0 1 4.6 5.2 2 2 0 0 1 6.6 3Z"/></svg>
+          <span>Contacto</span>
+        </button>
+        <button type="button" class="tab" data-tab="apariencia">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-1.8 0-.8-.6-1.4-.6-2.2 0-1.1.9-2 2-2H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8Z"/><circle cx="7.5" cy="11" r="1"/><circle cx="11" cy="7" r="1"/><circle cx="15.5" cy="8.5" r="1"/></svg>
+          <span>Apariencia</span>
+        </button>
+        <button type="button" class="tab" data-tab="cuenta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+          <span>Cuenta</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-pie">
+        <a class="enlace" href="../index.html" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <button class="enlace js-salir" type="button">Cerrar sesión</button>
+      </div>
+
+    </aside>
+
+    <div class="principal">
+
+      <header class="topbar">
+        <h1 id="tituloSeccion">General</h1>
+
+        <div class="topbar-acciones">
+          <a class="btn btn-secundario btn-chico" href="../index.html" target="_blank" rel="noopener">Ver sitio ↗</a>
+
+          <button class="icon-btn js-tema" type="button" aria-label="Cambiar de tema" title="Cambiar de tema">
+            <svg class="ico-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4.2"/>
+              <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+            </svg>
+            <svg class="ico-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 14.2A8.2 8.2 0 0 1 9.8 4a8.2 8.2 0 1 0 10.2 10.2Z"/>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="contenido" id="contenidoPanel">
+
+        <!-- ---------- GENERAL ---------- -->
+
+        <section class="seccion" data-panel="general">
+          <h2>Portada</h2>
+          <p class="ayuda">Lo primero que se ve al entrar al sitio.</p>
+
+          <label class="campo">
+            <span>Texto chico (arriba del título)</span>
+            <input data-campo="sitio.hero.etiqueta" placeholder="Gimnasio · Turnos de una hora">
+          </label>
+
+          <div class="fila">
+            <label class="campo">
+              <span>Título</span>
+              <input data-campo="sitio.hero.titulo" placeholder="Entrená fuerte.">
+            </label>
+            <label class="campo">
+              <span>Título (parte destacada)</span>
+              <input data-campo="sitio.hero.tituloDestacado" placeholder="Todos los días.">
+            </label>
+          </div>
+
+          <label class="campo">
+            <span>Descripción</span>
+            <textarea rows="3" data-campo="sitio.hero.bajada"></textarea>
+          </label>
+
+          <div class="campo">
+            <span>Foto de fondo (opcional)</span>
+            <div class="subida">
+              <img class="miniatura" id="previewHero" alt="" hidden>
+              <div class="subida-acciones">
+                <label class="btn btn-secundario">
+                  Subir foto
+                  <input type="file" accept="image/*" id="inputHero" hidden>
+                </label>
+                <button type="button" class="btn btn-peligro" id="quitarHero" hidden>Quitar</button>
+                <span class="ayuda" id="estadoHero"></span>
+              </div>
+            </div>
+          </div>
+
+          <label class="campo">
+            <span>Nota sobre los pagos</span>
+            <textarea rows="2" data-campo="sitio.notaPagos"></textarea>
+          </label>
+
+          <h2 class="separador">Cómo empezar</h2>
+          <p class="ayuda">Los tres pasos que se muestran antes del contacto.</p>
+          <div id="pasosEditor"></div>
+          <button type="button" class="btn btn-secundario" id="btnAgregarPaso">+ Agregar paso</button>
+        </section>
+
+        <!-- ---------- PLANES ---------- -->
+
+        <section class="seccion" data-panel="planes" hidden>
+          <h2>Planes y precios</h2>
+          <p class="ayuda">
+            El plan marcado como destacado se muestra resaltado. Los precios se
+            escriben sin puntos (ej. 3750).
+          </p>
+
+          <div id="planesEditor"></div>
+          <button type="button" class="btn btn-secundario" id="btnAgregarPlan">+ Agregar plan</button>
+        </section>
+
+        <!-- ---------- TURNOS ---------- -->
+
+        <section class="seccion" data-panel="turnos" hidden>
+          <h2>Turnos</h2>
+          <p class="ayuda">
+            Los turnos se agrupan por el texto de "Grupo" (Mañana, Tarde, etc.).
+            El orden es el de la lista.
+          </p>
+
+          <div id="turnosEditor"></div>
+          <button type="button" class="btn btn-secundario" id="btnAgregarTurno">+ Agregar turno</button>
+        </section>
+
+        <!-- ---------- ENTRENADOR ---------- -->
+
+        <section class="seccion" data-panel="entrenador" hidden>
+          <h2>Entrenador</h2>
+
+          <div class="fila">
+            <label class="campo">
+              <span>Nombre</span>
+              <input data-campo="entrenador.nombre">
+            </label>
+            <label class="campo">
+              <span>Cargo</span>
+              <input data-campo="entrenador.rol" placeholder="Entrenador">
+            </label>
+          </div>
+
+          <label class="campo">
+            <span>Descripción</span>
+            <textarea rows="3" data-campo="entrenador.descripcion"></textarea>
+          </label>
+
+          <label class="campo">
+            <span>Etiqueta (opcional)</span>
+            <input data-campo="entrenador.etiqueta" placeholder="Incluido en Premium">
+          </label>
+
+          <div class="campo">
+            <span>Foto</span>
+            <div class="subida">
+              <img class="miniatura redonda" id="previewEntrenador" alt="" hidden>
+              <div class="subida-acciones">
+                <label class="btn btn-secundario">
+                  Subir foto
+                  <input type="file" accept="image/*" id="inputEntrenador" hidden>
+                </label>
+                <button type="button" class="btn btn-peligro" id="quitarEntrenador" hidden>Quitar</button>
+                <span class="ayuda" id="estadoEntrenador"></span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- GALERÍA ---------- -->
+
+        <section class="seccion" data-panel="galeria" hidden>
+          <h2>Galería del local</h2>
+          <p class="ayuda">
+            Si no hay fotos, la sección no aparece en el sitio. Se achican
+            automáticamente antes de subirlas.
+          </p>
+
+          <label class="btn btn-primario">
+            Subir fotos
+            <input type="file" accept="image/*" multiple id="inputGaleria" hidden>
+          </label>
+          <span class="ayuda" id="estadoGaleria"></span>
+
+          <div class="galeria-editor" id="galeriaEditor"></div>
+        </section>
+
+        <!-- ---------- CONTACTO ---------- -->
+
+        <section class="seccion" data-panel="contacto" hidden>
+          <h2>Contacto</h2>
+
+          <label class="campo">
+            <span>Dirección</span>
+            <input data-campo="sitio.contacto.direccion">
+          </label>
+
+          <div class="fila">
+            <label class="campo">
+              <span>WhatsApp (solo números, con código de país)</span>
+              <input data-campo="sitio.contacto.whatsapp" placeholder="5491100000000" inputmode="numeric">
+            </label>
+            <label class="campo">
+              <span>Teléfono como se muestra</span>
+              <input data-campo="sitio.contacto.telefonoVisible" placeholder="+54 9 11 0000-0000">
+            </label>
+          </div>
+
+          <div class="fila">
+            <label class="campo">
+              <span>Instagram (usuario o link)</span>
+              <input data-campo="sitio.contacto.instagram" placeholder="altapinta.gym">
+            </label>
+            <label class="campo">
+              <span>Horarios (texto)</span>
+              <input data-campo="sitio.contacto.horarioTexto" placeholder="Turnos de 7:00 a 21:00">
+            </label>
+          </div>
+        </section>
+
+        <!-- ---------- APARIENCIA ---------- -->
+
+        <section class="seccion" data-panel="apariencia" hidden>
+          <h2>Apariencia del sitio</h2>
+          <p class="ayuda">
+            Así se ve la web para quien entra por primera vez. Cada visitante
+            puede cambiar el tema con el botón del encabezado.
+          </p>
+
+          <label class="campo">
+            <span>Tema por defecto</span>
+            <select data-campo="sitio.apariencia.temaPorDefecto">
+              <option value="auto">Automático (según el dispositivo)</option>
+              <option value="oscuro">Oscuro</option>
+              <option value="claro">Claro</option>
+            </select>
+          </label>
+
+          <div class="campo">
+            <span>Color de acento</span>
+            <p class="ayuda">Se usa en los botones principales, etiquetas y detalles.</p>
+
+            <div class="colores" id="coloresAcento"></div>
+
+            <div class="fila fila-color">
+              <label class="campo campo-color">
+                <span>Otro color</span>
+                <input type="color" id="acentoLibre" value="#ffffff">
+              </label>
+              <button type="button" class="btn btn-secundario" id="btnAcentoOriginal">
+                Usar el original
+              </button>
+            </div>
+          </div>
+
+          <div class="previa">
+            <span class="previa-titulo">Vista previa</span>
+            <div class="previa-caja" id="vistaPreviaAcento">
+              <div class="previa-texto">
+                <strong>Plan Premium</strong>
+                <span>Con entrenador</span>
+              </div>
+              <span class="previa-badge">Con entrenador</span>
+              <span class="previa-btn">Quiero este plan</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------- CUENTA ---------- -->
+
+        <section class="seccion" data-panel="cuenta" hidden>
+          <h2>Cuenta</h2>
+
+          <label class="campo">
+            <span>Email</span>
+            <input id="cuentaEmail" disabled>
+          </label>
+
+          <h2 class="separador">Cambiar contraseña</h2>
+
+          <div class="fila">
+            <label class="campo">
+              <span>Nueva contraseña</span>
+              <input type="password" id="passNueva" autocomplete="new-password" minlength="8">
+            </label>
+            <label class="campo">
+              <span>Repetir contraseña</span>
+              <input type="password" id="passRepetir" autocomplete="new-password" minlength="8">
+            </label>
+          </div>
+
+          <button type="button" class="btn btn-primario" id="btnCambiarPass">Cambiar contraseña</button>
+          <p class="mensaje" id="passMensaje" hidden></p>
+        </section>
+
+      </main>
+
+      <footer class="barra-guardar">
+        <span class="estado" id="estadoGuardado">Cargando…</span>
+        <div class="barra-acciones">
+          <button type="button" class="btn btn-secundario" id="btnDescartar" hidden>Descartar</button>
+          <button type="button" class="btn btn-primario" id="btnGuardar" disabled>Guardar cambios</button>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <script src="../config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
