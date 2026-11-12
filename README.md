@@ -31,7 +31,7 @@ Cambiala la primera vez desde la pestaña **Cuenta**.
 | General | Textos de la portada, foto de fondo, nota de pagos y pasos |
 | Planes | Nombre, descripción, precios, beneficios y plan destacado |
 | Turnos | Horarios y grupos (Mañana, Tarde, etc.) |
-| Entrenador | Nombre, cargo, descripción, etiqueta y foto |
+| Entrenador | Nombre, cargo, descripción, etiqueta y foto (contenido de Supabase) |
 | Galería | Fotos del local (si está vacía, la sección no aparece) |
 | Contacto | Dirección, WhatsApp, teléfono, Instagram y horarios |
 | Apariencia | Tema por defecto del sitio y color de acento |
@@ -49,10 +49,30 @@ Las fotos se achican solas (máx. 1600 px) antes de subirse.
   botones, etiquetas y detalles. "Original" usa blanco en oscuro y negro en claro.
 - El panel también tiene su propio botón de tema (no cambia el del sitio).
 
+## Entrenadores desde la base local
+
+La sección **Equipo** no depende de Supabase. Se genera desde la tabla
+`"Entrenadores"` de la base local `GYM` con:
+
+```powershell
+.\exportar_entrenadores.ps1
+```
+
+Eso reescribe `web/entrenadores.js` (solo entrenadores con `eliminado = false`,
+igual que la app de escritorio). Para actualizar también el sitio público:
+
+```powershell
+.\exportar_entrenadores.ps1 -Publicar
+```
+
+Si `entrenadores.js` tiene datos, esa lista manda sobre el entrenador único
+del panel. Si está vacío, queda el bloque de respaldo de `index.html`.
+
 ## Cómo está armado
 
 - `index.html`: estructura y contenido de respaldo (si no hay conexión).
 - `contenido.js`: trae los datos de Supabase y actualiza la página.
+- `entrenadores.js`: lista de entrenadores exportada desde la base local.
 - `config.js`: URL y clave pública (`anon`) del proyecto Supabase.
 - `admin/`: panel de administración (login, formularios y subida de fotos).
 - `styles.css`, `script.js`: estilos y animaciones del sitio.
@@ -67,11 +87,14 @@ En Supabase:
 
 ## Publicar
 
+- **GitHub Pages (actual):** https://arieldavidxd.github.io/altapinta-web/
+  (repo público `ArielDavidXD/altapinta-web`, contenido de `web/` en la raíz
+  de `main`).
 - **Netlify Drop:** arrastrar la carpeta `web/` a https://app.netlify.com/drop
-- **GitHub Pages:** activar Pages y elegir la carpeta `web/`
 - **Hosting propio:** subir el contenido de `web/` por FTP.
 
-Es todo estático: no hace falta servidor propio ni base de datos local.
+El sitio es estático. Lo único que sale de la base local es
+`entrenadores.js`, que se regenera con `exportar_entrenadores.ps1`.
 
 ## App para Android
 
