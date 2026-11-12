@@ -72,7 +72,7 @@
       <nav class="nav" id="navMenu" aria-label="Principal">
         <a href="#planes">Planes</a>
         <a href="#horarios">Horarios</a>
-        <a href="#entrenador">Entrenador</a>
+        <a href="#entrenador">Equipo</a>
         <a href="#app">App</a>
         <a href="#contacto">Contacto</a>
         <a class="btn btn-primary btn-sm" data-wa data-wa-texto="Hola, quiero información sobre AltaPinta GYM"
@@ -278,13 +278,15 @@
 
         <header class="section-head reveal">
           <p class="eyebrow">Equipo</p>
-          <h2>Tu entrenador</h2>
+          <h2>Nuestro equipo</h2>
           <p class="section-sub">
             Con el plan Premium no entrenas solo.
           </p>
         </header>
 
-        <article class="trainer card reveal">
+        <div class="trainers" id="entrenadoresLista" hidden></div>
+
+        <article class="trainer card reveal" id="entrenadorUnico">
           <div class="trainer-avatar" id="entrenadorAvatar" aria-hidden="true">J</div>
 
           <div class="trainer-body">
@@ -488,7 +490,7 @@
       <nav class="footer-nav" aria-label="Enlaces del pie">
         <a href="#planes">Planes</a>
         <a href="#horarios">Horarios</a>
-        <a href="#entrenador">Entrenador</a>
+        <a href="#entrenador">Equipo</a>
         <a href="#app">App</a>
         <a href="#contacto">Contacto</a>
         <a href="admin/">Administrar</a>
@@ -502,6 +504,7 @@
   </footer>
 
   <script src="config.js"></script>
+  <script src="entrenadores.js"></script>
   <script src="contenido.js"></script>
   <script src="script.js"></script>
 </body>
