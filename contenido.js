@@ -190,6 +190,49 @@
     }
   }
 
+  /* ---------- Entrenadores desde la base local ---------- */
+
+  function pintarEntrenadores(lista) {
+    var contenedor = document.getElementById("entrenadoresLista");
+    var unico = document.getElementById("entrenadorUnico");
+    if (!contenedor) return;
+
+    if (!lista || !lista.length) {
+      contenedor.hidden = true;
+      if (unico) unico.hidden = false;
+      return;
+    }
+
+    contenedor.innerHTML = lista.map(function (entrenador) {
+      var nombre = String(entrenador.nombre || "").trim();
+      var nombreVisible = nombre ? nombre.charAt(0).toUpperCase() + nombre.slice(1) : "";
+      var inicial = nombre ? nombre.charAt(0).toUpperCase() : "?";
+      var foto = entrenador.foto ? String(entrenador.foto) : "";
+      var avatar = foto
+        ? '<div class="trainer-avatar has-foto" aria-hidden="true">' +
+            '<img src="' + esc(foto) + '" alt="">' +
+          "</div>"
+        : '<div class="trainer-avatar" aria-hidden="true">' + esc(inicial) + "</div>";
+      var descripcion = entrenador.descripcion
+        ? "<p>" + esc(entrenador.descripcion) + "</p>"
+        : "<p>Arma tu rutina, te corrige cuando algo está mal y revisa cómo avanzas de un mes a otro. Si es tu primera vez en un gimnasio, te acompaña en las primeras clases.</p>";
+
+      return (
+        '<article class="trainer card">' +
+          avatar +
+          '<div class="trainer-body">' +
+            "<h3>" + esc(nombreVisible) + "</h3>" +
+            '<p class="trainer-role">' + esc(entrenador.rol || "Entrenador") + "</p>" +
+            descripcion +
+          "</div>" +
+        "</article>"
+      );
+    }).join("");
+
+    contenedor.hidden = false;
+    if (unico) unico.hidden = true;
+  }
+
   /* ---------- Galería ---------- */
 
   function pintarGaleria(fotos) {
@@ -424,9 +467,16 @@
       });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", cargar);
-  } else {
+  function iniciar() {
+    /* La lista de entrenadores viene de la base local (entrenadores.js),
+       no de Supabase: se pinta siempre, aunque el panel este caido. */
+    pintarEntrenadores(window.ENTRENADORES_WEB);
     cargar();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar);
+  } else {
+    iniciar();
   }
 })();
