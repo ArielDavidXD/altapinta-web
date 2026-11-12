@@ -842,6 +842,17 @@ button {
   max-width: 820px;
 }
 
+.trainers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.trainers .trainer {
+  max-width: none;
+  align-items: flex-start;
+}
+
 .trainer-avatar {
   display: grid;
   place-items: center;
@@ -870,7 +881,7 @@ button {
   margin-bottom: 12px;
 }
 
-.trainer-body p:last-child {
+.trainer-body p:last-child:not(.trainer-role) {
   font-size: 0.95rem;
   color: var(--muted);
 }
@@ -1211,6 +1222,16 @@ a.contact-value:hover {
 }
 
 @media (max-width: 940px) {
+  /* El backdrop-filter del header crea un "containing block" y hace que
+     el position: fixed del menu se ancle al header (72px) en vez de a la
+     pantalla. En movil usamos fondo solido para que el panel ocupe todo. */
+  .site-header,
+  .site-header.is-scrolled {
+    background: var(--menu-bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
   .nav-toggle {
     display: flex;
   }
@@ -1233,6 +1254,7 @@ a.contact-value:hover {
     visibility: hidden;
     transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .nav.is-open {
