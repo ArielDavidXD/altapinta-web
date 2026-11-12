@@ -92,7 +92,7 @@
     });
 
     window.addEventListener("resize", function () {
-      if (window.innerWidth > 860) {
+      if (window.innerWidth > 940) {
         cerrarMenu();
       }
     });
